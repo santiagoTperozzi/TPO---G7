@@ -1,0 +1,10 @@
+def opciones_menu():
+    print("=" * 50)
+    print("SISTEMA DE GESTIÓN: SMARTBUDGET CONTROL")
+    print("=" * 50)
+    print("1: Registrar movimiento")
+    print("2: Eliminar movimiento")
+    print("3: Modificar movimiento")
+    print("4: Informe")
+    print("5: Salir")
+    print("=" * 50)
