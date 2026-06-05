@@ -55,3 +55,49 @@ def validar_estado():
     
     return estado
 
+def ordenar_listas(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado):
+    """Recibe por parametros las listas del programa, las ordena por insercion usando los dos criterios propios
+    -Santiago Perozzi"""
+    # Determinar la cantidad total de elementos usando cualquiera de las listas paralelas
+    n = len(cod_deuda)
+    
+    # Recorrer desde el segundo elemento hasta el final de la lista
+    for i in range(1, n):
+        
+        # Guardamos en variables auxiliares los 7 datos del movimiento actual 
+        aux_cod     = cod_deuda[i]
+        aux_det     = det_deuda[i]
+        aux_cat     = categoria[i]
+        aux_monto_t = monto_total[i]
+        aux_monto_p = monton_pendiente[i]
+        aux_venc    = vencimiento[i]
+        aux_est     = estado[i]
+        
+        j = i
+        
+        # Evaluacion de la insercion y las criterios propios:
+        # - Criterio principal: El monto pendiente de la izquierda es menor al actual
+        # - Criterio secundario: El detalle de la izquierda es mayor alfabéticamente 
+        while j > 0 and (monton_pendiente[j - 1] < aux_monto_p or (monton_pendiente[j - 1] == aux_monto_p and det_deuda[j - 1] > aux_det)):
+            
+            # Desplazar los datos a la derecha, donde van respecto al dato actual
+            cod_deuda[j]        = cod_deuda[j - 1]
+            det_deuda[j]        = det_deuda[j - 1]
+            categoria[j]        = categoria[j - 1]
+            monto_total[j]      = monto_total[j - 1]
+            monton_pendiente[j] = monton_pendiente[j - 1]
+            vencimiento[j]      = vencimiento[j - 1]
+            estado[j]           = estado[j - 1]
+            
+            # Retroceder un lugar a la izquierda para comparar con el siguiente
+            j = j - 1
+            
+        # Insertar los datos guardados en la posicion correspondiente final
+        cod_deuda[j]        = aux_cod
+        det_deuda[j]        = aux_det
+        categoria[j]        = aux_cat
+        monto_total[j]      = aux_monto_t
+        monton_pendiente[j] = aux_monto_p
+        vencimiento[j]      = aux_venc
+        estado[j]           = aux_est
+
