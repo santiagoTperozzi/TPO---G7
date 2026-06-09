@@ -12,27 +12,27 @@ def opciones_menu():
     print("=" * 50)
 
 def ingresar_opcionMenu(desde, hasta):
-    '''válida ingresar un valor en el rango desde-hasta
-    retorna el valor ingresado del teclado
+    '''válida ingresar un valor en el rango desde-hasta usando métodos de string
     -Santiago Perozzi'''
-    op = int(input("Seleccione una opción:"))
-    while op<desde or op>hasta:
-        print("La opción seleccionada no es válida")
-        op = int(input("Seleccione una opción:"))
-    return op
-
+    op_str = input("Seleccione una opción: ").strip()
+    
+    # El ciclo continúa si NO es número, o si siéndolo, está fuera de rango
+    while not op_str.isdigit() or int(op_str) < desde or int(op_str) > hasta:
+        print("Error: La opción seleccionada no es válida o no es un número.")
+        op_str = input("Seleccione una opción: ").strip()
+        
+    return int(op_str)
 
 def validar_mes():
-    """Pide el ingreso del mes y valida que sea correcto
+    """Pide el ingreso del mes y valida que sea correcto numéricamente
     -Santiago Perozzi"""
+    mes_str = input("Ingrese el mes de vencimiento del movimiento (1-12): ").strip()
 
-    mes = int(input("Ingrese el mes de vencimiento del movimiento (1-12): "))
-
-    while mes <= 0 or mes > 12:
-        print ("Mes ingresado invalido")
-        mes = int(input("Ingrese el mes de vencimiento del movimiento (1-12): "))
+    while not mes_str.isdigit() or int(mes_str) <= 0 or int(mes_str) > 12:
+        print("Error: Mes ingresado inválido. Debe ser un número entre 1 y 12.")
+        mes_str = input("Ingrese el mes de vencimiento del movimiento (1-12): ").strip()
     
-    return mes
+    return int(mes_str)
 
 def validar_estado():
     """pide el ingreso del estado y valida que sea correcto
@@ -113,17 +113,21 @@ def validar_categoria():
     return cat
 
 def validar_monto(mensaje):
-    """
-    Verifica que los valores numéricos (con decimales) sean mayores o iguales a cero.
-    - Franco Estevezi
-    """
-    monto = float(input(mensaje))
+    """Verifica valores numéricos (con decimales) >= 0 usando lógica de strings
+    -Santiago Perozzi"""
+    monto_str = input(mensaje).strip()
     
-    # Uso de operador de comparación para asegurar valores >= 0
-    while monto < 0:
-        print("Error: El monto no puede ser negativo.")
-        monto = float(input(mensaje))
+    # .replace('.', '', 1) quita un solo punto para ver si el resto son números.
+    while not monto_str.replace('.', '', 1).isdigit():
+        print("Error: El monto debe ser un valor numérico válido (ej: 1500 o 1500.50).")
+        monto_str = input(mensaje).strip()
         
+    monto = float(monto_str)
+    
+    while monto < 0:
+         print("Error: El monto no puede ser negativo.")
+         return validar_monto(mensaje) # Llamada recursiva en caso raro de fallo aquí
+         
     return monto
 
 def buscar_por_codigo(cod_deuda, codigo_buscado):

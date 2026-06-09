@@ -12,8 +12,6 @@ def opcion_1 (cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, ve
         print("Ese código ya existe. Debe ingresar un código único.")
         cod = validar_codigo_deuda()
 
-    cod = validar_codigo_deuda()
-
     det = validar_detalle()
 
     cat = validar_categoria()
