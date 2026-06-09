@@ -10,6 +10,8 @@ def opcion_1 (cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, ve
         
     while buscar_por_codigo(cod_deuda, cod) != -1:
         print("Ese código ya existe. Debe ingresar un código único.")
+        cod = validar_codigo_deuda()
+
     cod = validar_codigo_deuda()
 
     det = validar_detalle()
@@ -43,11 +45,12 @@ def opcion_2 (cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, ve
         # 1. Buscar la posición (índice) del código usando la nueva función
         pos = buscar_por_codigo(cod_deuda, cod_buscar)
         
-        if pos == -1:
+        while pos == -1:
             print("El código ingresado no existe en el sistema.")
-        else:
-            # 2. Si existe, pasamos el índice a la función de eliminación para verificar estado y borrar
-            eliminar_registro(pos, cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado)
+            cod_buscar = input("Ingrese el código del movimiento que desea eliminar: ").strip()
+            pos = buscar_por_codigo(cod_deuda, cod_buscar)
+        
+        eliminar_registro(pos, cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado)
 
 def opcion_3 (cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado):
     """Opcion 3 del menu: busca el codigo de un movimiento en el sistema y permite modificar sus datos
@@ -62,11 +65,12 @@ def opcion_3 (cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, ve
         # Busca la posición con la función del grupo
         pos = buscar_por_codigo(cod_deuda, cod_buscar)
 
-        if pos == -1:
+        while pos == -1:
             print("El código ingresado no existe en el sistema.")
-        else:
-            # Llama a tu función interactiva de modificación
-            modificar_registro(pos, cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado)
+            cod_buscar = input("Ingrese el código del movimiento que desea modificar: ").strip()
+            pos = buscar_por_codigo(cod_deuda, cod_buscar)
+        
+        modificar_registro(pos, cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado)
 
 def opcion_4 (cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado):
     """Opcion 4 del menu: Ordena las listas por una insercion de dos criterios, luego imprime un informe del estado de todos los movimientos

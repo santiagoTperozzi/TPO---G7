@@ -38,20 +38,13 @@ def validar_estado():
     """pide el ingreso del estado y valida que sea correcto
     -Santiago Perozzi"""
 
-    estado = int(input("Ingrese el estado del movimiento (1_Pendiente, 2_Pagado Total, 3_Pagado Parcial, 4_Vencido): "))
+    estados_validos = ["Pendiente", "Pagado Total", "Pagado Parcial", "Vencido"]
 
-    while estado <= 0 or estado > 4:
+    estado = input("Ingrese el estado del movimiento (Pendiente, Pagado Total, Pagado Parcial, Vencido): ").strip().capitalize()
+
+    while estado not in estados_validos:
         print("Estado ingresado invalido")
-        estado = int(input("Ingrese el estado del movimiento (1_Pendiente, 2_Pagado Total, 3_Pagado Parcial, 4_Vencido): "))
-    
-    if estado == 1:
-        estado = "Pendiente"
-    elif estado == 2:
-        estado = "Pagado Total"
-    elif estado == 3:
-        estado = "Pagado Parcial"
-    else:
-        estado = "Vencido"
+        estado = input("Ingrese el estado del movimiento (Pendiente, Pagado Total, Pagado Parcial, Vencido): ").strip().capitalize()
     
     return estado
 
