@@ -1,8 +1,8 @@
 import time
 
-
 def opciones_menu():
-    """Muestra el menú principal actualizado con colores en los títulos (RF03)."""
+    """Muestra el menú principal 
+    -Gael Conde"""
     print("=" * 50)
     print("\033[32mSISTEMA DE GESTIÓN: SMARTBUDGET CONTROL\033[0m")
     print("=" * 50)
@@ -16,19 +16,18 @@ def opciones_menu():
     print("8: Salir")
     print("=" * 50)
 
-
 def ingresar_opcionMenu(desde, hasta):
-    '''Válida ingresar un valor en el rango desde-hasta usando métodos de string'''
+    '''Válida ingresar un valor en el rango desde-hasta usando métodos de string
+    -Gael Conde'''
     op_str = input("Seleccione una opción: ").strip()
     while not op_str.isdigit() or int(op_str) < desde or int(op_str) > hasta:
-        # Faltaba color rojo aquí
         print("\033[31mError: La opción seleccionada no es válida o no es un número.\033[0m")
         op_str = input("Seleccione una opción: ").strip()
     return int(op_str)
 
-
 def validar_fecha():
-    """Pide la fecha de vencimiento y valida que cumpla el formato dd/mm/aaaa."""
+    """Pide la fecha de vencimiento y valida que cumpla el formato dd/mm/aaaa.
+    -Franco Estevez"""
     while True:
         fecha_str = input("Ingrese la fecha de vencimiento (dd/mm/aaaa): ").strip()
         if len(fecha_str) == 10 and fecha_str[2] == '/' and fecha_str[5] == '/':
@@ -44,9 +43,9 @@ def validar_fecha():
                         continue
         print("\033[31mError: Formato inválido o datos incorrectos. Use dd/mm/aaaa (ej: 18/06/2026).\033[0m")
 
-
 def validar_estado():
-    """Pide el ingreso del estado y valida que sea correcto mediante ciclos."""
+    """Pide el ingreso del estado y valida que sea correcto mediante ciclos.
+    -Santiago Perozzi"""
     estados_validos = ["Pendiente", "Pagado Total", "Pagado Parcial", "Vencido"]
     estado_valido = False
     estado_final = ""
@@ -65,9 +64,9 @@ def validar_estado():
            
     return estado_final
 
-
 def ordenar_listas(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado):
-    """Ordena las listas por inserción usando monto pendiente (desc) y detalle (asc)."""
+    """Ordena las listas por inserción usando monto pendiente (desc) y detalle (asc).
+    -Santiago Perozzi"""
     n = len(cod_deuda)
     for i in range(1, n):
         aux_cod = cod_deuda[i]
@@ -95,9 +94,9 @@ def ordenar_listas(cod_deuda, det_deuda, categoria, monto_total, monton_pendient
         vencimiento[j] = aux_venc
         estado[j] = aux_est
 
-
 def validar_categoria(categorias_permitidas):
-    """Compara el ingreso con una lista de categorías permitidas."""
+    """Compara el ingreso con una lista de categorías permitidas.
+    -Gael Conde"""
     print(f"Categorías válidas: {categorias_permitidas}")
     cat = input("Ingrese la categoría: ").strip().capitalize()
     while cat not in categorias_permitidas:
@@ -105,11 +104,11 @@ def validar_categoria(categorias_permitidas):
         cat = input("Ingrese la categoría: ").strip().capitalize()
     return cat
 
-
 def validar_monto(mensaje):
-    """Verifica valores numéricos válidos mayores o iguales a cero."""
+    """Verifica valores numéricos válidos mayores o iguales a cero.
+    -Gael Conde"""
     while True:
-        monto_str = input(mensaje).strip()
+        monto_str = input(mensaje).strip()  
         if monto_str.replace('.', '', 1).isdigit():
             monto = float(monto_str)
             if monto >= 0:
@@ -119,12 +118,11 @@ def validar_monto(mensaje):
         else:
             print("\033[31mError: El monto debe ser un valor numérico válido.\033[0m")
 
-
 def buscar_por_codigo(cod_deuda, codigo_buscado):
     """
     Búsqueda secuencial por código. Recibe la lista de códigos y el código buscado.
     Retorna el índice (posición) donde se encuentra, o -1 si no existe.
-    - Franco Estevez (Corregido)
+    -Franco Estevez, Santiago Perozzi
     """
     posicion = -1
     encontrado = False
@@ -134,31 +132,32 @@ def buscar_por_codigo(cod_deuda, codigo_buscado):
     while i < n and not encontrado:
         if cod_deuda[i] == codigo_buscado:
             posicion = i
-            encontrado = True  # Corta el ciclo al encontrarlo
-        i += 1  # SE MUEVE ACÁ: Avanza siempre a la siguiente posición
+            encontrado = True 
+        i += 1 
        
     return posicion
 
-
 def validar_codigo_deuda():
-    # Añadido .upper() para formatear el código de una sola manera
+    """Ingresa el codigo del movimiento y valida el largo minimo y la repeticion de codigos unificando el formato
+    -Santiago Perozzi"""
     codigo = input("Ingrese el código de la deuda (mínimo 4 caracteres): ").strip().upper()
     while len(codigo) < 4:
         print("\033[31mError: El código debe contener al menos 4 caracteres.\033[0m")
         codigo = input("Ingrese el código de la deuda (mínimo 4 caracteres): ").strip().upper()
     return codigo
 
-
 def validar_detalle():
+    """Ingresa el detalle del movimiento y valida que no sea nulo
+    -Franco Estevez"""
     detalle = input("Ingrese el detalle del movimiento: ").strip()
     while len(detalle) == 0:
-        # Faltaba color rojo aquí
         print("\033[31mError: El detalle no puede quedar vacío.\033[0m")
         detalle = input("Ingrese el detalle del movimiento: ").strip()
     return detalle
 
-
 def calcular_dias_restantes(fecha_venc_str):
+    """Calcula con la libreria time los dias pendientes para la deuda, recibiendo por parametro la fecha de vencimiento
+    -Franco Estevez"""
     segundos_actual = time.time()
     fecha_struct = time.strptime(fecha_venc_str, "%d/%m/%Y")
     segundos_venc = time.mktime(fecha_struct)

@@ -1,8 +1,8 @@
 from Funciones import *
 
-
 def registrar_movimiento(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado, categorias_permitidas):
-    """Función modularizada para dar de alta un registro (Opción 1)."""
+    """Función para dar de alta un registro (Opción 1).
+    -Gael Conde"""
     print("="*50)
     print("Registrar movimiento: ")
      
@@ -19,7 +19,6 @@ def registrar_movimiento(cod_deuda, det_deuda, categoria, monto_total, monton_pe
     est = "Pendiente"
     fecha_venc = validar_fecha()
 
-
     cod_deuda.append(cod)
     det_deuda.append(det)
     categoria.append(cat)
@@ -29,15 +28,14 @@ def registrar_movimiento(cod_deuda, det_deuda, categoria, monto_total, monton_pe
     estado.append(est)
     print("¡Movimiento registrado con éxito!")
 
-
 def eliminar_registro(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado):
-    """Busca y elimina un registro si su estado es 'Pagada Total' (Opción 2)."""
+    """Busca y elimina un registro si su estado es 'Pagada Total' (Opción 2).
+    -Santiago Perozzi"""
     print("="*50)
     print("Eliminar movimiento: ")
     if len(cod_deuda) == 0:
         print("No hay movimientos registrados para eliminar.")
         return
-
 
     cod_buscar = input("Ingrese el código del movimiento que desea eliminar: ").strip().upper()
     indice = buscar_por_codigo(cod_deuda, cod_buscar)
@@ -56,23 +54,20 @@ def eliminar_registro(cod_deuda, det_deuda, categoria, monto_total, monton_pendi
     else:
         print(f"\033[31mNo se puede eliminar: El estado actual es '{estado[indice]}'. Solo se permite eliminar en estado 'Pagada Total'.\033[0m")
 
-
 def modificar_registro(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado, categorias_permitidas):
-    """Busca y permite alterar los atributos específicos elegidos por el usuario (Opción 3)."""
+    """Busca y permite alterar los atributos específicos elegidos por el usuario (Opción 3).
+    -Franco Estevez"""
     print("="*50)
     print("Modificar movimiento: ")
     if len(cod_deuda) == 0:
         print("No hay movimientos registrados para modificar.")
         return
 
-
-    # CORRECCIÓN AQUÍ: Se añadió .upper()
     cod_buscar = input("Ingrese el código del movimiento que desea modificar: ").strip().upper()
     indice = buscar_por_codigo(cod_deuda, cod_buscar)
    
     while indice == -1:
         print("\033[31mEl código ingresado no existe en el sistema.\033[0m")
-        # CORRECCIÓN AQUÍ: Se añadió .upper()
         cod_buscar = input("Ingrese el código del movimiento que desea modificar: ").strip().upper()
         indice = buscar_por_codigo(cod_deuda, cod_buscar)
        
@@ -94,9 +89,9 @@ def modificar_registro(cod_deuda, det_deuda, categoria, monto_total, monton_pend
        
     print("\n¡El movimiento ha sido modificado con éxito!")
 
-
 def informe_general(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado):
-    """Genera el Informe General ordenado de movimientos (Opción 4)."""
+    """Genera el Informe General ordenado de movimientos (Opción 4).
+    -Santiago Perozzi"""
     print("\033[32m" + "="*50)
     print("INFORME GENERAL DE MOVIMIENTOS")
     print("="*50 + "\033[0m")
@@ -110,14 +105,11 @@ def informe_general(cod_deuda, det_deuda, categoria, monto_total, monton_pendien
             dias = calcular_dias_restantes(vencimiento[i])
             print(f"Código: {cod_deuda[i]} | Detalle: {det_deuda[i]} | Categoria: {categoria[i]} | Total: ${monto_total[i]} | Pendiente: ${monton_pendiente[i]} | Vence: {vencimiento[i]} ({dias} días rest.) | Estado: {estado[i]}")
 
-
-
-
 def abm_categorias(categorias_permitidas, categoria_movimientos):
-    """
+    """ Opcion 5:
     Administración de Categorías: Alta, Modificación y Baja.
     Restringe la eliminación si la categoría está en uso.
-    - Gael Conde & Santiago Perozzi (Corregido)
+    -Gael Conde, Franco estevez, Santiago Perozzi
     """
     op = ""
     while op != "4":
@@ -179,8 +171,9 @@ def abm_categorias(categorias_permitidas, categoria_movimientos):
         else:
             print("\033[31mError: Opción inválida.\033[0m")
 
-
 def reporte_pagos_pendientes(cod_deuda, det_deuda, vencimiento, monton_pendiente, estado):
+    """Recorre las listas buscando pagos pendientes e informa los datos de estos movimientos (Opcion 7).
+    -Franco Estevez"""
     print("\033[32m" + "="*50)
     print("INFORME DE PAGOS PENDIENTES")
     print("="*50 + "\033[0m")
@@ -196,12 +189,13 @@ def reporte_pagos_pendientes(cod_deuda, det_deuda, vencimiento, monton_pendiente
     if not hay_pendientes:
         print("Excelente: No se registran pagos pendientes en el sistema.")
 
-
 def registrar_pago(cod_deuda, monton_pendiente, estado):
+    """Recibe un movimiento y, si no esta pago, permite registrar un monto de pago parcial para reducir el saldo pendiente (Opcion 6).
+    -Gael Conde"""
     print("\033[32m" + "="*50)
     print("REGISTRO DE PAGOS")
     print("="*50 + "\033[0m")
-    # CORRECCIÓN AQUÍ: Se añadió .upper()
+
     codigo = input("Ingrese el código del movimiento: ").strip().upper()
     pos = buscar_por_codigo(cod_deuda, codigo)
    
@@ -226,9 +220,8 @@ def registrar_pago(cod_deuda, monton_pendiente, estado):
         estado[pos] = "Pagado Parcial"
         print(f"Pago Parcial registrado. Nuevo saldo pendiente: ${monton_pendiente[pos]}")
 
-
 def main():
-    # Estructuras de datos (Listas paralelas)
+
     cod_deuda = []
     det_deuda = []
     categoria = []
@@ -237,49 +230,36 @@ def main():
     vencimiento = []  
     estado = []
    
-    # Categorías iniciales
     categorias_permitidas = ["Tarjeta", "Prestamo", "Educacion", "Vivienda", "Servicios", "Salud", "Entretenimiento", "Otro"]
    
     opciones_menu()
     op = ingresar_opcionMenu(1, 8)
 
-
     while op != 8:
         if op == 1:
-            # Registrar movimiento
             registrar_movimiento(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado, categorias_permitidas)
            
         elif op == 2:
-            # Eliminar movimiento (Usa la función modularizada)
             eliminar_registro(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado)
            
         elif op == 3:
-            # Modificar movimiento (Usa la función modularizada)
             modificar_registro(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado, categorias_permitidas)
 
-
         elif op == 4:
-            # Informe General de Movimientos
             informe_general(cod_deuda, det_deuda, categoria, monto_total, monton_pendiente, vencimiento, estado)
                    
         elif op == 5:
-            # Gestión de Categorías (ABM)
             abm_categorias(categorias_permitidas, categoria)
            
         elif op == 6:
-            # Registrar Pago
             registrar_pago(cod_deuda, monton_pendiente, estado)
            
         elif op == 7:
-            # Listar Pagos Pendientes
             reporte_pagos_pendientes(cod_deuda, det_deuda, vencimiento, monton_pendiente, estado)
            
-        # Volver a pedir la opción dentro del ciclo
         opciones_menu()
         op = ingresar_opcionMenu(1, 8)
 
-
     print("\n\033[32mGracias por utilizar SMARTBUDGET CONTROL. ¡Hasta luego!\033[0m")
-
 
 main()
